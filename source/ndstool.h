@@ -8,6 +8,11 @@
 #include "little.h"
 #include "header.h"
 
+#ifdef _MSC_VER
+#define MAXPATHLEN MAX_PATH
+#endif
+
+
 #define ROMTYPE_HOMEBREW	0
 #define ROMTYPE_MULTIBOOT	1
 #define ROMTYPE_NDSDUMPED	2	// decrypted secure area
@@ -65,4 +70,12 @@ extern int latency1;
 extern int latency2;
 extern unsigned int romversion;
 
-extern const char CompileDate[];
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+	extern const char CompileDate[];
+#ifdef __cplusplus
+}
+#endif
+

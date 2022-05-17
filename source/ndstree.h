@@ -25,6 +25,7 @@ struct TreeNode
 	TreeNode *New(char *name, bool isdir)
 	{
 		TreeNode *newNode = new TreeNode();
+#pragma warning(disable : 4996)
 		newNode->name = strdup(name);
 
 		TreeNode *node = this;

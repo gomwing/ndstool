@@ -55,7 +55,9 @@ unsigned int scfgExtMask = 0x80040407; // enable access to everything
 unsigned int accessControl = 0x00000138;
 unsigned int appFlags = 0x01;
 
-
+#ifdef _MSC_VER
+#define PACKAGE_VERSION "Gomwing"
+#endif
 /*
  * Title
  */

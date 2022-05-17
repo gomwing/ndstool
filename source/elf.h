@@ -110,7 +110,7 @@ typedef enum
 {
   EV_NONE    = 0, /* Invalid version. */
   EV_CURRENT = 1  /* Current version. */
-} ELF_VERSION;
+} _ELF_VERSION;
 
 /* Magic number. */
 #define ELF_MAGIC "\x7f" "ELF"

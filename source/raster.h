@@ -1,4 +1,5 @@
 #pragma pack(2)
+#ifndef _MSC_VER
 
 typedef struct tagRGBQUAD
 {
@@ -37,6 +38,7 @@ typedef struct tagBITMAPFILEHEADER
 	unsigned_short bfReserved2;
 	unsigned_int bfOffBits;
 } BITMAPFILEHEADER, *PBITMAPFILEHEADER;
+#endif
 
 #pragma pack()
 

@@ -12,6 +12,11 @@
 #include "crc.h"
 
 #include <algorithm>
+#ifdef _MSC_VER 
+//not #if defined(_WIN32) || defined(_WIN64) because we have strncasecmp in mingw
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
 
 static const long arm9_align = 0x1FF;
 static const long arm7_min = 0x8000;
@@ -469,9 +474,11 @@ void Create()
 
 	// COULD BE HERE: ARM9 overlay files, no padding before or between. end is padded with 0xFF's and then followed by ARM7 binary
 	// fseek(fNDS, 1388772, SEEK_CUR);		// test for ASME
+#define wcmax(a,b) (((a)>(b))?(a):(b))
+#define wcmin(a,b) (((a)<(b))?(a):(b))
 
 	// ARM7 binary
-	header.arm7_rom_offset = std::max( (ftell(fNDS) + arm7_align) &~ arm7_align, arm7_min);
+	header.arm7_rom_offset = wcmax( (ftell(fNDS) + arm7_align) &~ arm7_align, arm7_min);
 	fseek(fNDS, header.arm7_rom_offset, SEEK_SET);
 
 	// if (arm7filename)
@@ -685,17 +692,19 @@ void Create()
 		{
 			// Undo DSi section copy, keep this a NDS-only image
 			fseek(fNDS, newfilesize, SEEK_SET);
+#pragma warning(disable : 4996)
 			ftruncate(fileno(fNDS), newfilesize);
 		}
 	}
 
 	header.rom_control_info1 = 0x00586000;
 	header.rom_control_info2 = 0x001808F8;
-
+#define wcmax(a,b) (((a)>(b))?(a):(b))
+#define wcmin(a,b) (((a)<(b))?(a):(b))
 	// Set flags in DSi extended header
 	if (header.unitcode & 2)
 	{
-		newfilesize = std::max( ftell(fNDS) , static_cast<long>(header.banner_offset + 0x23c0));
+		newfilesize = wcmax( ftell(fNDS) , static_cast<long>(header.banner_offset + 0x23c0));
 		newfilesize = (newfilesize + file_align) & ~file_align;
 		header.total_rom_size = newfilesize;
 

@@ -2,6 +2,13 @@
 #include "overlay.h"
 #include <errno.h>
 
+#if defined _MSC_VER
+#include <direct.h>
+#elif defined __GNUC__
+#include <sys/types.h>
+#include <sys/stat.h>
+#endif
+
 /*
  * MkDir
  */
@@ -9,6 +16,8 @@ void MkDir(char *name)
 {
 #ifdef __MINGW32__
 	if (mkdir(name))
+#elif defined(_MSC_VER)
+	if (_mkdir(name))
 #else
 	if (mkdir(name, S_IRWXU))
 #endif

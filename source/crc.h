@@ -25,7 +25,7 @@ extern unsigned long crc32tab[];
  * Does not perform final inversion.
  */
 #define CalcCcitt_	CalcCcitt<CrcType, crcTable>
-#define CalcCcitt16	CalcCcitt<typeof(*ccitt16tab), ccitt16tab>
+#define CalcCcitt16	CalcCcitt<unsigned short, ccitt16tab>
 CRC_TEMPLATE inline CrcType CalcCcitt(unsigned char *data, unsigned int length, CrcType crc = (CrcType)0)
 {
 	for (unsigned int i=0; i<length; i++)
@@ -40,8 +40,8 @@ CRC_TEMPLATE inline CrcType CalcCcitt(unsigned char *data, unsigned int length, 
  * Does not perform final inversion.
  */
 #define CalcCrc_	CalcCrc<CrcType, crcTable>
-#define CalcCrc16	CalcCrc<typeof(*crc16tab), crc16tab>
-#define CalcCrc32	CalcCrc<typeof(*crc32tab), crc32tab>
+#define CalcCrc16	CalcCrc<unsigned short, crc16tab>
+#define CalcCrc32	CalcCrc<unsigned long, crc32tab>
 CRC_TEMPLATE inline CrcType CalcCrc(unsigned char *data, unsigned int length, CrcType crc = (CrcType)~0)
 {
 	for (unsigned int i=0; i<length; i++)
@@ -56,8 +56,8 @@ CRC_TEMPLATE inline CrcType CalcCrc(unsigned char *data, unsigned int length, Cr
  * Does not perform final inversion.
  */
 #define FCalcCrc_	FCalcCrc<CrcType, crcTable>
-#define FCalcCrc16	FCalcCrc<typeof(*crc16tab), crc16tab>
-#define FCalcCrc32	FCalcCrc<typeof(*crc32tab), crc32tab>
+#define FCalcCrc16	FCalcCrc<unsigned short, crc16tab>
+#define FCalcCrc32	FCalcCrc<unsigned long, crc32tab>
 CRC_TEMPLATE inline CrcType FCalcCrc(FILE *f, unsigned int offset, unsigned int length, CrcType crc = (CrcType)~0)
 {
 	fseek(f, offset, SEEK_SET);
@@ -132,8 +132,8 @@ CRC_TEMPLATE void FixCrc
  * FFixCrc
  */
 #define FFixCrc_	FFixCrc<CrcType, crcTable>
-#define FFixCrc16	FFixCrc<typeof(*crc16tab), crc16tab>
-#define FFixCrc32	FFixCrc<typeof(*crc32tab), crc32tab>
+#define FFixCrc16	FFixCrc<unsigned short, crc16tab>
+#define FFixCrc32	FFixCrc<unsigned long, crc32tab>
 CRC_TEMPLATE void FFixCrc
 (
 	FILE *f,							// file to be patched

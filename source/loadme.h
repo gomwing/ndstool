@@ -7,8 +7,19 @@ Visit http://www.devkitpro.org
 #ifndef _loadme_h_
 #define _loadme_h_
 //---------------------------------------------------------------------------------
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 extern const unsigned char loadme[];
 extern const int loadme_size;
+
+#ifdef __cplusplus
+}
+#endif
+
 //---------------------------------------------------------------------------------
 #endif //_loadme_h_
 //---------------------------------------------------------------------------------

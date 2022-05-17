@@ -17,7 +17,11 @@ int CRaster::LoadBMP(char *filename)
 	memcpy(palette, bmi.bmiColors, sizeof(palette));
 
 	// check filetype signature
+#ifndef _MSC_VER
 	if ((bmfh.bfType[0] != 'B') || (bmfh.bfType[1] != 'M')) { fprintf(stderr, "Not a bitmap file.\n"); return -2; }
+#else
+	if (bmfh.bfType!='MB') { fprintf(stderr, "Not a bitmap file.\n"); return -2; }
+#endif
 	if (bmih.biBitCount > 8) { fprintf(stderr, "Bitmap must have a palette.\n"); return -3; }	
 
 	// assign some short variables:
