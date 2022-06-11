@@ -134,8 +134,8 @@ int CopyFromElf(char *elfFilename,         unsigned int *entry,
 	Elf32_Ehdr   header;
 	Elf32_Phdr  *p_headers;
 	unsigned int i;
-  
-	*ram_address = 0;
+	unsigned int ra = *ram_address;
+	//*ram_address = 0;
 
 	/* Open ELF file. */
 	in = fopen(elfFilename, "rb");
@@ -167,16 +167,26 @@ int CopyFromElf(char *elfFilename,         unsigned int *entry,
 		/* Use first found address. */
 		if(!*ram_address)
 			*ram_address = p_headers[i].p_paddr;
-    
+
 		/* Seek to segment offset. */
-		if(fseek(in, p_headers[i].p_offset, SEEK_SET))
+		int skip = (ra != p_headers[i].p_paddr) ? ra - p_headers[i].p_paddr : 0;
+		Elf32_Off	offset = p_headers[i].p_offset + skip;
+		Elf32_Word	filesz = p_headers[i].p_filesz - skip;
+
+		if(fseek(in, offset, SEEK_SET))
 			die("failed to seek to program header segment\n");
     
+		//int filesz = p_headers[i].p_filesz
+
     	/* Write file image and pad with zeros. */
-    	ElfWriteData(p_headers[i].p_filesz, in, fNDS);
-		ElfWriteZeros(p_headers[i].p_memsz - p_headers[i].p_filesz, fNDS);
-    
-		*size += p_headers[i].p_memsz;
+    	ElfWriteData(filesz, in, fNDS);
+		//ElfWriteZeros(p_headers[i].p_memsz - p_headers[i].p_filesz, fNDS);
+		if (p_headers[i].p_memsz != p_headers[i].p_filesz)
+		{
+			int k = 0;
+		}
+		*size += filesz;
+		ra+= filesz;
 	}
   
 	/* Clean up. */

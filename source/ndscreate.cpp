@@ -327,7 +327,7 @@ void Create()
 
 	bool is_arm9_elf = HasElfExtension(arm9filename) || HasElfHeader(arm9filename);
 	bool is_arm7_elf = HasElfExtension(arm7filename) || HasElfHeader(arm7filename);
-	bool is_both_elf = is_arm9_elf && is_arm7_elf;
+	bool is_both_elf = false;// is_arm9_elf&& is_arm7_elf;
 
 	fNDS = fopen(ndsfilename, "wb+");
 	if (!fNDS) { fprintf(stderr, "Cannot open file '%s'.\n", ndsfilename); exit(1); }
